@@ -1,6 +1,6 @@
 {
-  "name": "party-app",
-  "app-url": "https://kchan-stockmarket-app.herokuapp.com/",
+  "name": "basic-app",
+  "app-url": "https://scholarsmap.com/",
   "version": "0.0.0",
   "private": true,
   "keywords": [

@@ -1,8 +1,15 @@
-# Real-Time Stock Market
+# react-flux-express-mongo : Basic running app
 
+Usage
 
-## UserStory
-1. I can view a graph displaying the recent trend lines of each added stock.
-2. I can add new stock by their symbol name
-3. I can remove stocks
-4. I can see changes in real-time when any other user add or remove stock.
+`git clone https://github.com/kumarchandan/code-flux-react-express-mongo.git myapp`
+
+`cd myapp`
+
+`npm install`
+
+`npm run build`
+
+`npm run server`
+
+Open http://127.0.0.1:3000/
