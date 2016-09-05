@@ -22,6 +22,9 @@ var NavigationBar = React.createClass({
                             <LinkContainer to='/'>
                                 <NavItem eventKey={1}>Home</NavItem>
                             </LinkContainer>
+                            <LinkContainer to='/tweets'>
+                                <NavItem eventKey={2}>Twitter Stream</NavItem>
+                            </LinkContainer>
                         </Nav>
                 </Navbar>
                 {this.props.children}
