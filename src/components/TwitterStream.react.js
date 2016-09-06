@@ -40,10 +40,9 @@ var TwitterStream = React.createClass({
         // Initialize socket io
         var socket = io()
         socket.on('tweet', function(data) {
-            var temp = []
-            temp.push(data)
+            self.state.tweets.push(data)
             self.setState({
-                tweets: temp
+                tweets: self.state.tweets
             })
         })
     },
