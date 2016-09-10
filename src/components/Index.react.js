@@ -27,16 +27,16 @@ var NavigationBar = React.createClass({
                                     <IconButton><MoreVertIcon /></IconButton>
                                 }
                                 targetOrigin={ { horizontal:'right', vertical: 'top' } }
-                                anchorOrigin={ { horizontal:'right', vertical: 'top' } }
-                            >
-                                <MenuItem primaryText='Refresh' />
+                                anchorOrigin={ { horizontal:'right', vertical: 'top' } } >
                                 <MenuItem primaryText='Help' />
                                 <MenuItem primaryText='Logout' onTouchTap={this.handleLogout} />
                             </IconMenu>
                         }
                     />
                 </MuiThemeProvider>
-                {this.props.children}
+                <MuiThemeProvider>
+                    {this.props.children}
+                </MuiThemeProvider>
             </div>
         )
     }

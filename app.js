@@ -25,7 +25,7 @@ app.io = io
 var dbAPI = require('./routes/dbAPI')
 var index = require('./routes/index')
 // socket routes
-// var extAPI = require('./routes/extAPI')(io)
+var extAPI = require('./routes/extAPI')(io)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,8 +53,8 @@ app.use(function(req, res, next) {
 
 // routes path
 app.use('/', index)
-app.use('/dbAPI', dbAPI)
-
+app.use('/dbapi', dbAPI)
+app.use('/extapi', extAPI)
 //
 io.on('connection', function(socket) {
   //
