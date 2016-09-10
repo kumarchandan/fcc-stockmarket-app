@@ -1,4 +1,4 @@
-// api.js - database queries api
+// dbAPI.js
 
 var express = require('express')
 var router = express.Router()

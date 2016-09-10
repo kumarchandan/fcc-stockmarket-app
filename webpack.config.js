@@ -30,6 +30,7 @@ module.exports = {
             }
         ]
     }
+    // Uncomment while uploading
     // plugins: [
     //     new webpack.optimize.UglifyJsPlugin({
     //         minimize: true,

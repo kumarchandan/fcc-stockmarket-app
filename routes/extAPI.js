@@ -1,4 +1,4 @@
-// ext-api.js
+// extAPI.js
 
 module.exports = function(io) {
 
@@ -28,5 +28,6 @@ module.exports = function(io) {
         })
     })
 
+    //
     return router
 }

@@ -22,10 +22,10 @@ var io = socket_io()
 app.io = io
 
 // routes
-var api = require('./routes/db-api')
+var dbAPI = require('./routes/dbAPI')
 var index = require('./routes/index')
 // socket routes
-var extAPI = require('./routes/ext-api')(io)
+// var extAPI = require('./routes/extAPI')(io)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,8 +52,8 @@ app.use(function(req, res, next) {
 })
 
 // routes path
-app.use('/', index);
-app.use('/api', api);
+app.use('/', index)
+app.use('/dbAPI', dbAPI)
 
 //
 io.on('connection', function(socket) {
@@ -63,11 +63,6 @@ io.on('connection', function(socket) {
   socket.on('disconnect', function() {
     console.log('a user disconnected')
   })
-})
-
-// error page
-app.use('/error', function(req, res, next) {
-  res.render('error')
 })
 
 // catch 404 and forward to error handler

@@ -40,5 +40,6 @@ Thumbs.db
 /node_modules
 npm-debug.log
 /bower_components
+/public/data/
 .vscode
 NOTES.md
