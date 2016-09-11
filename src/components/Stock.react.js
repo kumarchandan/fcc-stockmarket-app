@@ -69,9 +69,29 @@ var Stock = React.createClass({
         }
         StockActions.getStocks(code)
     },
+    handleKeyDown: function(event) {
+        //
+        if(event.keyCode === 13) {
+            this.handleAddStock()
+        }
+    },
     // Remove Stock
-    handleRemoveStock: function() {
-        alert('implementation yet to be done!')
+    handleRemoveStock: function(stockID) {
+        // Remove from Chips
+        this.names = this.state.names
+        const nameToDelete = this.names.map( (value) => value.id ).indexOf(stockID)   // indexOf is working on the new Array(value.id) returned by map fn
+        this.names.splice(nameToDelete, 1)
+        // Remove from Line Chart series
+        this.series = this.state.config.series
+        const seriesToDelete = this.series.map( (value) => value.id ).indexOf(stockID)
+        this.series.splice(seriesToDelete, 1)
+        // Update State
+        this.setState({
+            names: this.names,
+            config: {
+                series: this.series
+            }
+        })
     },
     // Provide Info in Dialog
     handleInfo: function() {
@@ -106,14 +126,14 @@ var Stock = React.createClass({
                             <Chip
                                 key={data.id}
                                 backgroundColor={cyan400} labelColor={white} style={styles.chip}
-                                onRequestDelete={this.handleRemoveStock} onTouchTap={this.handleInfo}
+                                onRequestDelete={() => this.handleRemoveStock(data.id)} onTouchTap={this.handleInfo}
                             >{data.name}</Chip>
                         )
                     }, this)}
                 </div>
                 <Toolbar className='toolbar-bottom'>
                     <ToolbarGroup>
-                        <TextField hintText='Type Stock Code..' ref={ (ref) => this.addStock = ref } />
+                        <TextField hintText='Type Stock Code..' ref={ (ref) => this.addStock = ref } onKeyDown={this.handleKeyDown} />
                         <ToolbarSeparator />
                         <RaisedButton label='Add' primary={true} onTouchTap={this.handleAddStock} />
                     </ToolbarGroup>

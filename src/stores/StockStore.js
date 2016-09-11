@@ -19,16 +19,17 @@ function loadSeries(dataset) {
         return arr
     })
     //
-    var obj = {
+    _series.push({
         name: dataset.name.split(' ')[0],
-        data: data
-    }
-    _series.push(obj)
+        id: dataset.id,
+        data: data.reverse()
+    })
+    //
     _names.push({
         name: dataset.name.split(' ')[0],
         id: dataset.id,
         code: dataset.dataset_code
-    })     // Chips- company name
+    })
 }
 
 //

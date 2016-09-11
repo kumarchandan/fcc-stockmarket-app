@@ -29,17 +29,17 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
     // Uncomment while uploading
-    // plugins: [
-    //     new webpack.optimize.UglifyJsPlugin({
-    //         minimize: true,
-    //         compress: {
-    //             warnings: false
-    //         },
-    //         output: {
-    //             comments: false
-    //         }
-    //     })
-    // ]
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            compress: {
+                warnings: false
+            },
+            output: {
+                comments: false
+            }
+        })
+    ]
 }
