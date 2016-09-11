@@ -12,7 +12,7 @@ import React from 'react'
 var NavigationBar = React.createClass({
     //
     handleLogout: function() {
-        alert('Do not logout man!')
+        alert('Why you leaving? Stay here Pal!')
     },
     // render
     render: function() {

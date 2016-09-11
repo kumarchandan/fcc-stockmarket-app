@@ -1,16 +1,33 @@
 // components/Stock.react.js
 //
+import Chip from 'material-ui/Chip'
+import Divider from 'material-ui/Divider'
 import RaisedButton from 'material-ui/RaisedButton'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
+import StockActions from '../actions/StockActions'
 import StockStore from '../stores/StockStore'
 import TextField from 'material-ui/TextField'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import { cyan400, white } from 'material-ui/styles/colors'
+
+// Chip styles
+const styles = {
+    chip: {
+        margin: 4
+    },
+    wrapper: {
+        display: 'flex',
+        flexWrap: 'wrap'
+    }
+}
 
 //
 function getStocks() {
     //
     return {
+        names: StockStore.getNames(),
+        //
         config: {
             title: {
                 text: 'Stock Quotes'
@@ -19,28 +36,47 @@ function getStocks() {
                 text: 'Source: www.quandl.com'
             },
             xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                type: 'datetime'
             },
             yAxis: {
                 title: {
-                    text: 'US dollars'
+                    text: 'Value (in USD)'
                 }
             },
-            series: [
-                {
-                    name: 'Facebook',   // set from User Input
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]    // set from Close -> data[4]
-                },
-                {
-                    name: 'Google',
-                    data: [9.9, 7.5, 16.4, 29.2, 44.0, 76.0, 15.6, 48.5, 216.4, 294.1, 395.6, 554.4]
+            plotOptions: {
+                series: {
+                    marker: {
+                        enabled: false
+                    }
                 }
-            ]
+            },
+            series: StockStore.getSeries()
         }
     }
 }
 //
 var Stock = React.createClass({
+    // Add Stock
+    handleAddStock: function() {
+        //
+        var code = this.addStock.getValue()
+        var names = this.state.names
+        for(var i = 0; i < names.length; i++) {
+            if(names[i].code.toUpperCase() === code.toUpperCase()){
+                alert('You already have '+names[i].name)
+                return false
+            }
+        }
+        StockActions.getStocks(code)
+    },
+    // Remove Stock
+    handleRemoveStock: function() {
+        alert('implementation yet to be done!')
+    },
+    // Provide Info in Dialog
+    handleInfo: function() {
+        alert('we will provide detailed info here')
+    },
     //
     onStockChange: function() {
         this.setState(getStocks())
@@ -52,6 +88,8 @@ var Stock = React.createClass({
     //
     componentDidMount: function() {
         StockStore.addChangeListener(this.onStockChange)
+        // Focus on Stock Input Field
+        this.addStock.focus()
     },
     componentWillUnmount: function() {
         StockStore.removeChangeListener(this.onStockChange)
@@ -61,11 +99,23 @@ var Stock = React.createClass({
         return (
             <div>
                 <ReactHighcharts config={this.state.config} />
-                <Toolbar>
-                    <ToolbarGroup firstChild={true}>
-                        <TextField hintText='Type Stock Code..' />
+                <Divider />
+                <div style={styles.wrapper}>
+                    {this.state.names.map(function(data) {
+                        return (
+                            <Chip
+                                key={data.id}
+                                backgroundColor={cyan400} labelColor={white} style={styles.chip}
+                                onRequestDelete={this.handleRemoveStock} onTouchTap={this.handleInfo}
+                            >{data.name}</Chip>
+                        )
+                    }, this)}
+                </div>
+                <Toolbar className='toolbar-bottom'>
+                    <ToolbarGroup>
+                        <TextField hintText='Type Stock Code..' ref={ (ref) => this.addStock = ref } />
                         <ToolbarSeparator />
-                        <RaisedButton label='Add' />
+                        <RaisedButton label='Add' primary={true} onTouchTap={this.handleAddStock} />
                     </ToolbarGroup>
                 </Toolbar>
             </div>

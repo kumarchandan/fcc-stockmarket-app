@@ -7,40 +7,39 @@ import StockConstants from '../constants/StockConstants'
 const EventEmitter = require('events').EventEmitter
 
 //
-var _stocks = []
-var _categories = []
 var _series = []
+var _names = []
 //
-function loadStocks(data) {
-    _stocks = data
-}
-//
-function addStock(data) {
-    if(data) {
-        _stocks.push(data)
+function loadSeries(dataset) {
+    //
+    var data = dataset.data.map(function(stockquotes) {
+        var arr = []
+        arr.push(stockquotes[0])
+        arr.push(stockquotes[4])
+        return arr
+    })
+    //
+    var obj = {
+        name: dataset.name.split(' ')[0],
+        data: data
     }
+    _series.push(obj)
+    _names.push({
+        name: dataset.name.split(' ')[0],
+        id: dataset.id,
+        code: dataset.dataset_code
+    })     // Chips- company name
 }
-//
-function setCategories(dates) {
-    _categories
-}
-
-// [
-//     {
-//         name: 'Facebook',   // set from User Input
-//         data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 295.6, 454.4]    // set from Close -> data[4]
-//     },
-//     {
-//         name: 'Google',
-//         data: [9.9, 7.5, 16.4, 29.2, 44.0, 76.0, 15.6, 48.5, 216.4, 294.1, 395.6, 554.4]
-//     }
-// ]
 
 //
 var StockStore = _.extend({}, EventEmitter.prototype, {
     //
-    getStocks: function() {
-        return _stocks
+    getSeries: function() {
+        return _series
+    },
+    //
+    getNames: function() {
+        return _names
     },
     //
     emitChange: function() {
@@ -64,11 +63,10 @@ AppDispatcher.register(function(payload) {
     switch(action.actionType) {
         // Get Stocks
         case StockConstants.GET_STOCKS_RESPONSE:
-            loadStocks(action.data)
+            loadSeries(action.data.dataset)
             StockStore.emitChange()
             break
         case StockConstants.ADD_STOCK_RESPONSE:
-            addStock(action.data)
             StockStore.emitChange()
             break
         default:
