@@ -14,7 +14,8 @@ function loadSeries(dataset) {
     //
     var data = dataset.data.map(function(stockquotes) {
         var arr = []
-        arr.push(stockquotes[0])
+        var date = stockquotes[0].split('-')
+        arr.push(Date.UTC(parseInt(date[0]),parseInt(date[1]),parseInt(date[2])))
         arr.push(stockquotes[4])
         return arr
     })
