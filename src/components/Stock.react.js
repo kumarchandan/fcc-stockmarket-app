@@ -89,7 +89,28 @@ var Stock = React.createClass({
         this.setState({
             names: this.names,
             config: {
-                series: this.series
+                series: this.series,
+                title: {
+                    text: 'Stock Quotes'
+                },
+                subtitle: {
+                    text: 'Source: www.quandl.com'
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Value (in USD)'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
             }
         })
     },
