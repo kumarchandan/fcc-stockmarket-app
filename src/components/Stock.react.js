@@ -33,7 +33,7 @@ function getStocks() {
                 text: 'Stock Quotes'
             },
             subtitle: {
-                text: 'Source: www.quandl.com'
+                text: 'Author: Kchan'
             },
             xAxis: {
                 type: 'datetime'
