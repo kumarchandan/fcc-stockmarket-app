@@ -33,7 +33,7 @@ function getStocks() {
                 text: 'Stock Quotes'
             },
             subtitle: {
-                text: 'Author: Kchan'
+                text: 'Author: KChan'
             },
             xAxis: {
                 type: 'datetime'
@@ -94,7 +94,7 @@ var Stock = React.createClass({
                     text: 'Stock Quotes'
                 },
                 subtitle: {
-                    text: 'Source: www.quandl.com'
+                    text: 'Author: KChan'
                 },
                 xAxis: {
                     type: 'datetime'
