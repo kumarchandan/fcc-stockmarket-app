@@ -8,24 +8,17 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session')
 //
-var socket_io = require('socket.io')
-//
-var mongoURL = require('./config/database').mongoURL
-var mongoose = require('mongoose')
-// Connect to MongoDB
-mongoose.connect(mongoURL)
+var socket = require('socket.io')
 
 // Express
 var app = express();
 // socket
-var io = socket_io()
+var io = socket()
 app.io = io
 
 // routes
-var dbAPI = require('./routes/dbAPI')
 var index = require('./routes/index')
-// socket routes
-var extAPI = require('./routes/extAPI')(io)
+var api = require('./routes/api')(io)   // use socket
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,17 +46,6 @@ app.use(function(req, res, next) {
 
 // routes path
 app.use('/', index)
-app.use('/dbapi', dbAPI)
-app.use('/extapi', extAPI)
-//
-io.on('connection', function(socket) {
-  //
-  console.log('a user connected')
-  //
-  socket.on('disconnect', function() {
-    console.log('a user disconnected')
-  })
-})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

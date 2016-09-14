@@ -9,7 +9,7 @@ import StockServerActions from '../actions/StockServerActions'
 //
 var StockAPI = {
     // Get Latest available date
-    getLatestDate: function(done) {
+    _getLatestDate: function(done) {
         //
         request.get(url + 'GOOG/metadata.json?api_key=' + key).end(function(err, res) {
             if(err) throw err
@@ -26,7 +26,7 @@ var StockAPI = {
     // Input: Code, Ouput: StockQoute
     getStocks: function(code) {
         //
-        this.getLatestDate(function(end_date, start_date) {
+        this._getLatestDate(function(end_date, start_date) {
             // Get Quandl API Stock Quotes
             request.get(url + code + '.json?api_key=' + key + '&end_date=' + end_date + '&start_date=' + start_date).end(function(err, res) {
                 if(err) throw err

@@ -15,8 +15,8 @@ function loadSeries(dataset) {
     var data = dataset.data.map(function(stockquotes) {
         var arr = []
         var date = stockquotes[0].split('-')
-        arr.push(Date.UTC(parseInt(date[0]),parseInt(date[1]),parseInt(date[2])))
-        arr.push(stockquotes[4])
+        arr.push(Date.UTC(parseInt(date[0]),parseInt(date[1]),parseInt(date[2])))   // the Date
+        arr.push(stockquotes[4])    // Closing Value
         return arr
     })
     //
@@ -31,6 +31,16 @@ function loadSeries(dataset) {
         id: dataset.id,
         code: dataset.dataset_code
     })
+}
+
+// Remove Stock
+function removeFromStock(id) {
+    //
+    const seriesToDelete = _series.map( (data) => data.id ).indexOf(id)
+    _series.splice(seriesToDelete, 1)
+    //
+    const nameToDelete = _names.map( (data) => data.id ).indexOf(id)
+    _names.splice(nameToDelete, 1)
 }
 
 //
@@ -63,12 +73,12 @@ AppDispatcher.register(function(payload) {
     var action = payload.action     // actionType, data
     //
     switch(action.actionType) {
-        // Get Stocks
-        case StockConstants.GET_STOCKS_RESPONSE:
+        case StockConstants.GET_STOCKS_RESPONSE:    // Add Stock - from Same client or from Broadcasted by other clients
             loadSeries(action.data.dataset)
             StockStore.emitChange()
             break
-        case StockConstants.ADD_STOCK_RESPONSE:
+        case StockConstants.REMOVE_STOCK:
+            removeFromStock(action.data)
             StockStore.emitChange()
             break
         default:

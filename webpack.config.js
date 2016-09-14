@@ -30,16 +30,16 @@ module.exports = {
             }
         ]
     }
-    // Uncomment while uploading
-    ,plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            }
-        })
-    ]
+    // Uncomment in production
+    // ,plugins: [
+    //     new webpack.optimize.UglifyJsPlugin({
+    //         minimize: true,
+    //         compress: {
+    //             warnings: false
+    //         },
+    //         output: {
+    //             comments: false
+    //         }
+    //     })
+    // ]
 }

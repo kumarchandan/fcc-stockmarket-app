@@ -68,6 +68,12 @@ var Stock = React.createClass({
             }
         }
         StockActions.getStocks(code)
+        // Broadcast to other clients
+        this.socket.emit('update', { code: code }, function(err) {
+            if(err) {
+                console.log(err)
+            }
+        })
     },
     handleKeyDown: function(event) {
         //
@@ -76,47 +82,13 @@ var Stock = React.createClass({
         }
     },
     // Remove Stock
-    handleRemoveStock: function(stockID) {
-        // Remove from Chips
-        this.names = this.state.names
-        const nameToDelete = this.names.map( (value) => value.id ).indexOf(stockID)   // indexOf is working on the new Array(value.id) returned by map fn
-        this.names.splice(nameToDelete, 1)
-        // Remove from Line Chart series
-        this.series = this.state.config.series
-        const seriesToDelete = this.series.map( (value) => value.id ).indexOf(stockID)
-        this.series.splice(seriesToDelete, 1)
-        // Update State
-        this.setState({
-            names: this.names,
-            config: {
-                series: this.series,
-                title: {
-                    text: 'Stock Quotes'
-                },
-                subtitle: {
-                    text: 'Author: KChan'
-                },
-                xAxis: {
-                    type: 'datetime'
-                },
-                yAxis: {
-                    title: {
-                        text: 'Value (in USD)'
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                }
-            }
-        })
+    handleRemoveStock: function(id) {
+        //
+        StockActions.removeStock(id)
     },
     // Provide Info in Dialog
     handleInfo: function() {
-        alert('we will provide detailed info here')
+        alert('We will provide detailed info here')
     },
     //
     onStockChange: function() {
@@ -131,6 +103,14 @@ var Stock = React.createClass({
         StockStore.addChangeListener(this.onStockChange)
         // Focus on Stock Input Field
         this.addStock.focus()
+        // Listen to Socket
+        this.socket = io()
+        var that = this
+        this.socket.on('broadcast', function(data){
+            // Update
+            StockActions.getStocks(data.code)
+        })
+
     },
     componentWillUnmount: function() {
         StockStore.removeChangeListener(this.onStockChange)

@@ -33,8 +33,6 @@
     "flux": "^2.1.1",
     "highcharts": "^4.2.6",
     "material-ui": "^0.15.4",
-    "mongodb": "^2.2.5",
-    "mongoose": "^4.5.9",
     "morgan": "~1.6.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
@@ -44,7 +42,6 @@
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.4.8",
     "superagent": "^2.2.0",
-    "twitter": "^1.4.0",
     "underscore": "^1.8.3",
     "webpack": "^1.13.1"
   }
