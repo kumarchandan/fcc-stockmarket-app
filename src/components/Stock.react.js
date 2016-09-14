@@ -70,9 +70,7 @@ var Stock = React.createClass({
         StockActions.getStocks(code)
         // Broadcast to other clients
         this.socket.emit('update', { code: code }, function(err) {
-            if(err) {
-                console.log(err)
-            }
+            if(err) throw err
         })
     },
     handleKeyDown: function(event) {
@@ -85,6 +83,10 @@ var Stock = React.createClass({
     handleRemoveStock: function(id) {
         //
         StockActions.removeStock(id)
+        // Broadcast removal of Stock
+        this.socket.emit('remove', { id: id }, function(err) {
+            if(err) throw err
+        })
     },
     // Provide Info in Dialog
     handleInfo: function() {
@@ -106,11 +108,14 @@ var Stock = React.createClass({
         // Listen to Socket
         this.socket = io()
         var that = this
+        // Update Stock
         this.socket.on('broadcast', function(data){
-            // Update
             StockActions.getStocks(data.code)
         })
-
+        // Remove Stock
+        this.socket.on('removal', function(data) {
+            StockActions.removeStock(data.id)
+        })
     },
     componentWillUnmount: function() {
         StockStore.removeChangeListener(this.onStockChange)

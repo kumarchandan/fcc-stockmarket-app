@@ -9,7 +9,11 @@ module.exports = function(io) {
     io.on('connection', function(socket) {
         //
         socket.on('update', function(data) {
-            socket.broadcast.emit('broadcast', data)
+            socket.broadcast.emit('broadcast', data)    // data.code
+        })
+        //
+        socket.on('remove', function(data) {
+            socket.broadcast.emit('removal', data)  // data.id
         })
     })
 

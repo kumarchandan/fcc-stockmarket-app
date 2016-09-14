@@ -44108,9 +44108,7 @@
 	        _StockActions2.default.getStocks(code);
 	        // Broadcast to other clients
 	        this.socket.emit('update', { code: code }, function (err) {
-	            if (err) {
-	                console.log(err);
-	            }
+	            if (err) throw err;
 	        });
 	    },
 	    handleKeyDown: function handleKeyDown(event) {
@@ -44123,6 +44121,10 @@
 	    handleRemoveStock: function handleRemoveStock(id) {
 	        //
 	        _StockActions2.default.removeStock(id);
+	        // Broadcast removal of Stock
+	        this.socket.emit('remove', { id: id }, function (err) {
+	            if (err) throw err;
+	        });
 	    },
 	    // Provide Info in Dialog
 	    handleInfo: function handleInfo() {
@@ -44144,9 +44146,13 @@
 	        // Listen to Socket
 	        this.socket = io();
 	        var that = this;
+	        // Update Stock
 	        this.socket.on('broadcast', function (data) {
-	            // Update
 	            _StockActions2.default.getStocks(data.code);
+	        });
+	        // Remove Stock
+	        this.socket.on('removal', function (data) {
+	            _StockActions2.default.removeStock(data.id);
 	        });
 	    },
 	    componentWillUnmount: function componentWillUnmount() {
