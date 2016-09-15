@@ -7,8 +7,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session')
-//
 var socket = require('socket.io')
+var mongoose = require('mongoose')
+var expressSession = session({
+  secret: 'arduino123',
+  resave: true,
+  saveUninitialized: true
+})
 
 // Express
 var app = express();
@@ -16,9 +21,15 @@ var app = express();
 var io = socket()
 app.io = io
 
+// Connect to db
+mongoose.connect(require('./config/db').mongoURL)
+
 // routes
 var index = require('./routes/index')
-var api = require('./routes/api')(io)   // use socket
+var api = require('./routes/api')
+
+// middlewares
+var useSocket = require('./middlewares/socket')(io)   // use socket
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,11 +42,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'arduino123',
-  resave: true,
-  saveUninitialized: true
-}))
+app.use(expressSession)
 
 // handle cors
 app.use(function(req, res, next) {
@@ -46,6 +53,7 @@ app.use(function(req, res, next) {
 
 // routes path
 app.use('/', index)
+app.use('/api', api)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -34,6 +34,22 @@ var StockAPI = {
                 StockServerActions.getStocks(res.body)   // datasets or quandl_error
             })
         })
+    },
+    // Load existing stock codes from db
+    loadStocks: function() {
+        //
+        var that = this
+        //
+        request.get('api/stocks').end(function(err, res) {
+            //
+            if(err) throw err
+            //
+            if(res.body.codes && res.body.codes.length !== 0) {
+                res.body.codes.forEach(function(code, index) {
+                    that.getStocks(code)
+                })
+            }
+        })
     }
 }
 //

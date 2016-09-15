@@ -31,15 +31,15 @@ module.exports = {
         ]
     }
     // Uncomment in production
-    ,plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            minimize: true,
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            }
-        })
-    ]
+    // ,plugins: [
+    //     new webpack.optimize.UglifyJsPlugin({
+    //         minimize: true,
+    //         compress: {
+    //             warnings: false
+    //         },
+    //         output: {
+    //             comments: false
+    //         }
+    //     })
+    // ]
 }

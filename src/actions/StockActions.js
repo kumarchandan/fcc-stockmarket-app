@@ -14,10 +14,10 @@ var StockActions = {
         StockAPI.getStocks(code)
     },
     // Remove Stock
-    removeStock: function(id) {
+    removeStock: function(code) {
         AppDispatcher.handleAction({
             actionType: StockConstants.REMOVE_STOCK,
-            data: id
+            data: code
         })
     }
 }

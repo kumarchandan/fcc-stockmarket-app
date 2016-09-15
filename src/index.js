@@ -8,9 +8,13 @@ import { Router, Route, hashHistory, IndexRoute } from 'react-router'
 
 var Index = require('./components/Index.react')
 var Stock = require('./components/Stock.react')
+var StockAPI = require('./utils/StockAPI')
 
 // For Overall App - onTouchTap() for onClick
 injectTapEventPlugin()
+
+// Load Data from DB
+StockAPI.loadStocks()
 
 // Home Page
 ReactDOM.render(

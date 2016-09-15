@@ -1,22 +1,10 @@
-// api.js
+// routes/api.js
 
-module.exports = function(io) {
+var query = require('../manager/query')
+var express = require('express')
+var router = express.Router()
 
-    var app = require('express')
-    var router = app.Router()
+// GET
+router.get('/stocks', query.getStocks)
 
-    // socket connection
-    io.on('connection', function(socket) {
-        //
-        socket.on('update', function(data) {
-            socket.broadcast.emit('broadcast', data)    // data.code
-        })
-        //
-        socket.on('remove', function(data) {
-            socket.broadcast.emit('removal', data)  // data.id
-        })
-    })
-
-    //
-    return router
-}
+module.exports = router

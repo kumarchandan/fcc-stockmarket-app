@@ -80,11 +80,11 @@ var Stock = React.createClass({
         }
     },
     // Remove Stock
-    handleRemoveStock: function(id) {
+    handleRemoveStock: function(code) {
         //
-        StockActions.removeStock(id)
+        StockActions.removeStock(code)
         // Broadcast removal of Stock
-        this.socket.emit('remove', { id: id }, function(err) {
+        this.socket.emit('remove', { code: code }, function(err) {
             if(err) throw err
         })
     },
@@ -114,7 +114,7 @@ var Stock = React.createClass({
         })
         // Remove Stock
         this.socket.on('removal', function(data) {
-            StockActions.removeStock(data.id)
+            StockActions.removeStock(data.code)
         })
     },
     componentWillUnmount: function() {
@@ -130,9 +130,9 @@ var Stock = React.createClass({
                     {this.state.names.map(function(data) {
                         return (
                             <Chip
-                                key={data.id}
+                                key={data.code}
                                 backgroundColor={cyan400} labelColor={white} style={styles.chip}
-                                onRequestDelete={() => this.handleRemoveStock(data.id)} onTouchTap={this.handleInfo}
+                                onRequestDelete={() => this.handleRemoveStock(data.code.toLowerCase())} onTouchTap={this.handleInfo}
                             >{data.name}</Chip>
                         )
                     }, this)}

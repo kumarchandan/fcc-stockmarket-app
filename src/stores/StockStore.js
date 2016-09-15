@@ -15,31 +15,30 @@ function loadSeries(dataset) {
     var data = dataset.data.map(function(stockquotes) {
         var arr = []
         var date = stockquotes[0].split('-')
-        arr.push(Date.UTC(parseInt(date[0]),parseInt(date[1]),parseInt(date[2])))   // the Date
+        arr.push(Date.UTC(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2])))   // the Date - yyyy/mm/dd - some issue with Date.UTC so mm-1
         arr.push(stockquotes[4])    // Closing Value
         return arr
     })
     //
     _series.push({
         name: dataset.name.split(' ')[0],
-        id: dataset.id,
+        code: dataset.dataset_code.toLowerCase(),
         data: data.reverse()
     })
     //
     _names.push({
         name: dataset.name.split(' ')[0],
-        id: dataset.id,
-        code: dataset.dataset_code
+        code: dataset.dataset_code.toLowerCase()
     })
 }
 
 // Remove Stock
-function removeFromStock(id) {
+function removeFromStock(code) {
     //
-    const seriesToDelete = _series.map( (data) => data.id ).indexOf(id)
+    const seriesToDelete = _series.map( (data) => data.code ).indexOf(code)
     _series.splice(seriesToDelete, 1)
     //
-    const nameToDelete = _names.map( (data) => data.id ).indexOf(id)
+    const nameToDelete = _names.map( (data) => data.code ).indexOf(code)
     _names.splice(nameToDelete, 1)
 }
 
